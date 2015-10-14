@@ -8,34 +8,6 @@ import time
 import warnings 
 import argparse
 
-parser = argparse.ArgumentParser(description = 'Run quicklook with commands')
-parser.add_argument('-nchan', help = 'Number of frequency channels. Deafult is 16',default = 16, type = int)
-parser.add_argument('-save', '--save',help = 'Save to .npz file?', action = 'store_true')
-parser.add_argument('inputfile',help = 'File (string) to be opened using Quicklook', type = str)
-parser.add_argument('-noshow', '--noshow',help = 'Display the defualt Quicklook', action= 'store_true')
-parser.add_argument('-min', '--min',help = 'Plot with minutes as defualt', action= 'store_true', default = False)
-parser.add_argument('-ext','--ext', help = 'Print Quicklook to file with extension',default = None,choices = ['emf','png', 'pdf', 'ps','eps','svg','raw','rgba','svgz'])
-parser.add_argument('-iters','--iters', help = 'Number of DM iteration to go through when calculating optimal DM',default = 11,type = int)
-parser.add_argument('-depth','--depth', help = 'The max depth to reach when calculating optimal DM',default = 3,type = int)
-parser.add_argument('-nodm','--nodm', help = 'Do not calculate the optimal DM', action = 'store_true',default = False)
-parser.add_argument('-template', '--template',help = 'Give location of template file for pulsar',default = None, type = str)
-args = parser.parse_args()
-
-
-if args.inputfile is None:
-    raise UserWarning('You have not supplied a file!')
-else:
-    filename = args.inputfile
-
-NCHAN = args.nchan
-save = args.save
-if args.noshow:
-    disp = False
-else:
-    disp = True
-minutes = args.min
-ext = args.ext
-templatefilename = args.template
 
 
 def fitfuncDM(p,f):
@@ -51,10 +23,14 @@ This class takes a ArchiveHandler and does the very basic plotting
 This is the main part of the code that calls everything else, where all of the graphics can be written
 '''
 class Quicklook:
-    def __init__(self,FILE, templatefilename = None, NCHAN = 16, save = False, disp = False, minutes = False, ext = None):
+    def __init__(self,FILE, templatefilename=None, NCHAN=16, save=False, disp = False, minutes = False, ext = None):
         warnings.filterwarnings("ignore") #probably should remove later
         start = time.time()
         self.templatefilename = templatefilename
+        self.save = save
+        self.disp = disp
+        self.minutes = minutes
+        self.ext = ext
         self.handler = ArchiveHandler(FILE,templatefilename = templatefilename, NCHAN=NCHAN)
         
         self.fig = figure(figsize= (15,9.5))
@@ -148,7 +124,7 @@ class Quicklook:
         else:
             calcDM = "%0.6f"%calcDM
         duration = self.handler.getDuration()
-        if minutes:
+        if self.minutes:
             duration = "%0.2f min"%(duration/60)
         else:
             duration = "%0.2f s"%(duration)
@@ -178,4 +154,31 @@ in ipython: %run quicklook.py
 '''
 
 if __name__ == "__main__":
-    ql = Quicklook(FILE = filename,templatefilename = templatefilename, NCHAN = NCHAN , save = save, disp =disp, minutes = minutes, ext = ext)
+
+    parser = argparse.ArgumentParser(description = 'Run quicklook with commands')
+    parser.add_argument('-nchan', help = 'Number of frequency channels. Deafult is 16',default = 16, type = int)
+    parser.add_argument('-save', '--save',help = 'Save to .npz file?', action = 'store_true')
+    parser.add_argument('inputfile',help = 'File (string) to be opened using Quicklook', type = str)
+    parser.add_argument('-noshow', '--noshow',help = 'Display the defualt Quicklook', action= 'store_true')
+    parser.add_argument('-min', '--min',help = 'Plot with minutes as defualt', action= 'store_true', default = False)
+    parser.add_argument('-ext','--ext', help = 'Print Quicklook to file with extension',default = None,choices = ['emf','png', 'pdf', 'ps','eps','svg','raw','rgba','svgz'])
+    parser.add_argument('-iters','--iters', help = 'Number of DM iteration to go through when calculating optimal DM',default = 11,type = int)
+    parser.add_argument('-depth','--depth', help = 'The max depth to reach when calculating optimal DM',default = 3,type = int)
+    parser.add_argument('-nodm','--nodm', help = 'Do not calculate the optimal DM', action = 'store_true',default = False)
+    parser.add_argument('-template', '--template',help = 'Give location of template file for pulsar',default = None, type = str)
+    args = parser.parse_args()
+
+
+
+    if args.inputfile is None:
+        raise UserWarning('You have not supplied a file!')
+    else:
+        filename = args.inputfile
+
+
+    
+    disp = (not args.noshow)
+
+
+
+    ql = Quicklook(FILE=filename,templatefilename=args.template, NCHAN=args.nchan , save=args.save, disp=disp, minutes = args.min, ext=args.ext)
