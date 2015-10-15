@@ -89,7 +89,7 @@ class Quicklook:
         if self.handler.templatefilename is None:
             textstr = 'NONE'
         else:
-            textstr = 'TEMP'
+            textstr = 'TMPL'
         
         props = dict(boxstyle='round', facecolor= 'none', edgecolor = 'black', alpha=0.5)
         self.fig.text(0.3, 0.92, textstr, fontsize=8, verticalalignment='top', bbox=props)
