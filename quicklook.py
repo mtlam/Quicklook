@@ -87,7 +87,7 @@ class Quicklook:
         self.plotHeader()
         
         if self.handler.templatefilename is None:
-            textstr = 'NT'
+            textstr = 'NONE'
         else:
             textstr = 'TEMP'
         
