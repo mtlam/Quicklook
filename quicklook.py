@@ -129,7 +129,7 @@ class Quicklook:
         else:
             duration = "%0.2f s"%(duration)
         header = ('Name:  %s    Telescope:  %s    MJD:  %i\n'%(self.handler.getName(full=True),self.handler.getTelescope(),self.handler.getMJD())+
-                  'PSR:  %s    Period:  %0.3f ms    Nbins:  %i    DM:  %0.6f    Calc DM:  %s\n'%(self.handler.ar.getName(),self.handler.getPeriod()*1e3,self.handler.getNbin(),self.handler.getDM(),calcDM)
+                  'PSR:  %s    Period:  %0.3f ms    Nbins:  %i    DM:  %0.6f    Calc DM:  %s\n'%(self.handler.ar.getName(),self.handler.getPeriod()*1e3,self.handler.getNbin(),self.handler.getDM(),calcDM)+
                   'BW:  %0.2f MHz    Nchan:  %i    Duration  %s\n'%(abs(self.handler.getBandwidth()),np.size(self.handler.F),duration)+
                   'Time/Bin:  %0.2f us'%(self.handler.getPeriod()/self.handler.getNbin()*1e6))
                 
