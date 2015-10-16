@@ -39,12 +39,13 @@ class ArchiveHandler:
         name , file_extension = os.path.splitext(filename)
         path , self.name = os.path.split(name)
         self.fullname = "%s%s" % (self.name,file_extension)
-        if file_extension == '.fits' or file_extension == '.zap':
-            self.npz = None
-        elif file_extension == '.npz':
+        if file_extension == '.npz':
             self.npz = np.load(filename)
+        #if file_extension == '.fits' or file_extension == '.zap':
         else:
-            raise RuntimeError('File has improper extension for Quicklook, and this code will not work')
+            self.npz = None
+        #else:
+        #    raise RuntimeError('File has improper extension for Quicklook, and this code will not work')
         
         name, file_extension = os.path.splitext(filename)
         self.filename = filename
