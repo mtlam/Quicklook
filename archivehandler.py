@@ -6,7 +6,7 @@ import matplotlib.gridspec as gridspec
 import scipy.optimize as optimize
 import sys
 import glob 
-import barycenter as bary
+#import barycenter as bary
 
 
 
@@ -201,7 +201,8 @@ class ArchiveHandler:
 
         if barycenter:
             #print "DM",DM
-            DM = bary.convertDMtopo(DM,self.ar.getTelescopeCoords(),self.ar.getPulsarCoords(parse=False),self.ar.getMJD(full=True))
+            return
+            #DM = bary.convertDMtopo(DM,self.ar.getTelescopeCoords(),self.ar.getPulsarCoords(parse=False),self.ar.getMJD(full=True))
             #print "DMnew",DM
             #err?
 
