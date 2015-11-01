@@ -201,7 +201,7 @@ class ArchiveHandler:
 
         if barycenter:
             #print "DM",DM
-            return
+            return DM, DMerr
             #DM = bary.convertDMtopo(DM,self.ar.getTelescopeCoords(),self.ar.getPulsarCoords(parse=False),self.ar.getMJD(full=True))
             #print "DMnew",DM
             #err?
