@@ -227,6 +227,8 @@ class ArchiveHandler:
         if reset:
             if self.npz is None:
                 if self.templatefilename is None or fast:
+                    if np.ndim(self.data) <= 2: #quick patch
+                        return
                     ds = np.transpose(np.mean(self.data,axis=2)) #no need to reset archive
                     #this is the average over all 2048 phase bins, not the peak!
                 else:
@@ -255,7 +257,10 @@ class ArchiveHandler:
             reset = True
         if reset:
             if self.npz is None:
-                data = np.mean(self.data,axis=0)
+                if np.ndim(self.data) <= 2: #patch
+                    data = self.data
+                else:
+                    data = np.mean(self.data,axis=0)
                 newdata = np.zeros((nchan,self.nbins))
                 window = len(data)/nchan
                 for i in range(nchan):
@@ -370,6 +375,10 @@ class ArchiveHandler:
         """
         Plot the dynamic spectrum, useful if on a specific axis
         """
+
+        if np.ndim(self.data) <= 2:
+            return
+        
         doshow = False
         if ax is None:
             doshow = True
@@ -405,7 +414,10 @@ class ArchiveHandler:
         """
         Plot the secondary spectrum, useful if on a specific axis
         """
-        
+
+        if np.ndim(self.data) <= 2:
+            return
+
         doshow = False
         if ax is None:
             doshow = True
@@ -489,6 +501,11 @@ class ArchiveHandler:
             ax = fig.add_subplot(111)
         if profiles is None:
             profiles = self.getProfiles(nchan=nchan,difference=difference, reset = reset)
+        #for profile in profiles:
+        #    plt.clf()
+        #    plt.plot(profile)
+        #    plt.show()
+        #raise SystemExit
         
         if BW is None:
             BW = self.getBandwidth()#np.abs(self.getBandwidth())
@@ -542,6 +559,10 @@ class ArchiveHandler:
         """
         Plot the acf2d, useful if on a specific axis
         """
+
+        if np.ndim(self.data) <= 2:
+            return
+        
         doshow = False
         if ax is None:
             doshow = True
@@ -604,6 +625,10 @@ class ArchiveHandler:
         Calculates the maximum pulse amplitude  at each frequency, and plots a histogram
         of occureences vs. pulse amplitudes 
         """
+
+        if np.ndim(self.data) <= 2:
+            return
+        
         doshow = False
         if ax is None:
             doshow = True
@@ -613,6 +638,7 @@ class ArchiveHandler:
         arr = self.getDynamicSpectrum()
         abs_max = np.amax(arr)
         abs_min = np.amin(arr)
+
         step_size = (abs_max - abs_min) / bins
         #remove dead channels
         arr = arr[arr != 0]
