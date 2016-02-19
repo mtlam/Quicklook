@@ -46,6 +46,8 @@ class ArchiveHandler:
             self.npz = None
         #else:
         #    raise RuntimeError('File has improper extension for Quicklook, and this code will not work')
+
+        self.NCHAN = NCHAN
         
         name, file_extension = os.path.splitext(filename)
         self.filename = filename
@@ -121,8 +123,8 @@ class ArchiveHandler:
             self.peak_DM = self.npz['peak_DM']
             self.DM_arr = self.npz['DM_arr']
         
-        if len(self.F) % NCHAN != 0:
-            str(len(self.F)) + '%' + str(NCHAN) + '=' + str( len(self.F) % NCHAN )
+        if len(self.F) % self.NCHAN != 0:
+            str(len(self.F)) + '%' + str(self.NCHAN) + '=' + str( len(self.F) % self.NCHAN )
             raise UserWarning('Number of frequency channels in file is not multiple of your provided NCHAN')
     
     
@@ -152,10 +154,12 @@ class ArchiveHandler:
             return self.spavgprof.fitPulse(self.sptemp.data)[-2]
 
 
-    def getDeltaDM(self,nchan=NCHAN,barycenter=True): 
+    def getDeltaDM(self,nchan=None,barycenter=True): 
         """
         Calculate the DM offset 
         """
+        if nchan is None:
+            nchan = self.NCHAN
         data = np.mean(self.data,axis=0)
         newdata = np.zeros((nchan,self.nbins))
         window = len(data)/nchan
@@ -247,10 +251,13 @@ class ArchiveHandler:
         return ds
 
 
-    def getProfiles(self,nchan = NCHAN,difference=False, reset = False): #may run several times due to there deing difference option
+    def getProfiles(self,nchan = None,difference=False, reset = False): #may run several times due to there deing difference option
         """
         Return profiles of a given frequency channelization
         """
+        if nchan is None:
+            nchan = self.NCHAN
+
         if self.profiles is None:
             reset = True
         if self.difference_profiles is None:
@@ -489,10 +496,13 @@ class ArchiveHandler:
         return SS_xaxis, SS_yaxis
 
          
-    def plotProfiles(self,ax=None,nchan=NCHAN,difference=False, labels = False, profiles = None, reset = False, BW = None, F = None):
+    def plotProfiles(self,ax=None,nchan=None,difference=False, labels = False, profiles = None, reset = False, BW = None, F = None):
         """
         Plot the data profiles, useful if on a specific axis
         """
+
+        if nchan is None:
+            nchan = self.NCHAN
     
         doshow = False
         if ax is None:
