@@ -69,7 +69,7 @@ class ArchiveHandler:
         
         
         if self.templatefilename is not None:
-                artemp = Archive(self.templatefilename, prepare=False)
+                artemp = Archive(self.templatefilename, prepare=False,lowmem=True) #force lowmem?
                 artemp.pscrunch()
                 temp = u.normalize(u.center_max(artemp.getData()),simple=True)
                 self.sptemp = SinglePulse(temp,windowsize=windowsize)
