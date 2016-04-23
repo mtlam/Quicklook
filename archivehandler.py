@@ -714,7 +714,7 @@ class ArchiveHandler:
             ax.xaxis.set_ticks(np.arange(min_tick,max_tick,(max_tick-min_tick)/5.0))
             ax.xaxis.set_major_formatter(FormatStrFormatter('%.02f'))
             if labels:
-                ax.axes.set_ylabel('Peak SNR')
+                ax.axes.set_ylabel('Peak S/N')
                 ax.axes.set_xlabel('DM')
         
             if doshow:
@@ -753,7 +753,7 @@ class ArchiveHandler:
                 ax.xaxis.set_ticks(np.arange(min_tick,max_tick,(max_tick-min_tick)/5.0))
                 ax.xaxis.set_major_formatter(FormatStrFormatter('%.02f'))
                 if labels:
-                    ax.axes.set_ylabel('Peak SNR')
+                    ax.axes.set_ylabel('Peak S/N')
                     ax.axes.set_xlabel('DM')
                 if doshow:
                     show()
@@ -789,6 +789,8 @@ class ArchiveHandler:
         self.DMCalculator(ax=ax, plot=plot, labels = labels, DM = new_dm, iters = iters, initial=initial, end = end, arr = dm_arr, max_depth = next_depth)
         
    
+    def save(self,name=None):
+        self.save_to_npz(name=name)
     def save_to_npz(self, name = None):
         if name is None:
             name = self.name
