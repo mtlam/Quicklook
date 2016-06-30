@@ -68,7 +68,8 @@ class Quicklook:
         
         gs3 = gridspec.GridSpec(26,12)
         #gs3.update(left = .65, right = .99, wspace = .02, hspace = .02)
-        gs3.update(left = .62, right = .99, wspace = .02, hspace = .02)
+        gs3.update(left = .63, right = .99, wspace = .02, hspace = .02)
+        #gs3.update(left = .62, right = .99, wspace = .02, hspace = .02)
         
         ax7 = subplot(gs3[2:9,1:11])
         self.handler.plotAcf2d(ax = ax7, minutes = minutes, labels = True)
@@ -159,8 +160,8 @@ if __name__ == "__main__":
     parser.add_argument('-nchan', help = 'Number of frequency channels. Deafult is 16',default = 16, type = int)
     parser.add_argument('-save', '--save',help = 'Save to .npz file?', action = 'store_true')
     parser.add_argument('inputfile',help = 'File (string) to be opened using Quicklook', type = str)
-    parser.add_argument('-noshow', '--noshow',help = 'Display the defualt Quicklook', action= 'store_true')
-    parser.add_argument('-min', '--min',help = 'Plot with minutes as defualt', action= 'store_true', default = False)
+    parser.add_argument('-noshow', '--noshow',help = 'Display the default Quicklook', action= 'store_true')
+    parser.add_argument('-min', '--min',help = 'Plot with minutes as default', action= 'store_true', default = False)
     parser.add_argument('-ext','--ext', help = 'Print Quicklook to file with extension',default = None,choices = ['emf','png', 'pdf', 'ps','eps','svg','raw','rgba','svgz'])
     parser.add_argument('-iters','--iters', help = 'Number of DM iteration to go through when calculating optimal DM',default = 11,type = int)
     parser.add_argument('-depth','--depth', help = 'The max depth to reach when calculating optimal DM',default = 3,type = int)
