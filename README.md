@@ -2,6 +2,8 @@
 
 Requires the [PyPulse](https://github.com/mtlam/PyPulse) package to run. For now it is necessary to be in the same directory.
 
+Please see [QuicklookPresentation.pdf](QuicklookPresentation.pdf) for some more information.
+
 Usage: python quicklook.py [OPTIONS] [PSRFITS filename]
 
 Options
